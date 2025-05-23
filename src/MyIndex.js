@@ -1,7 +1,5 @@
 import React from 'react';
 import './Styles.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faArrowDownUpLock, faCoffee, faDownLeftAndUpRightToCenter} from '@fortawesome/free-solid-svg-icons'
 import Twitter from './assets/twitter-brands.svg';
 import Tumblr from './assets/tumblr-brands.svg';
 
@@ -31,23 +29,30 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            index: 0,
-            color: colors[0]
+            quote: quotes[parseInt(Math.random() * quotes.length)],
+            color: colors[parseInt(Math.random() * colors.length)]
         }
     }
 
     newQuote = () => {
-        if(this.state.index < quotes.length - 1){
-            this.setState((state)=> ({index: state.index + 1}))
-
-        }
-
-        else {
-            this.setState({index: 0})
-        }
-
-        this.changeColor()
+        let quotesFiltered = quotes.filter(quote => quote.phrase !== this.state.quote.phrase);
+        this.setState({quote: quotesFiltered[parseInt(Math.random() * quotesFiltered.length)]})
+        this.changeColor();
     }
+
+    getRandomColor = () => {
+
+        console.log(`Color: ${this.getRandomItem(colors)}`);
+        return this.getRandomItem(colors);
+    }
+
+    getRandomQuote = () => {
+
+        console.log(`Quote: ${this.getRandomItem(quotes)}`);
+        return this.getRandomItem(quotes);
+    }
+
+    getRandomItem = (array) =>  array[parseInt(Math.random() * array.length)];
 
     changeColor = () => {
 
@@ -56,39 +61,46 @@ class Index extends React.Component{
         let randomIndex = parseInt(Math.random() * colors2.length);
         this.setState({color: colors2[randomIndex]})
 
-        document.getElementsByTagName("body")[0].style.backgroundColor = this.state.color;
-
-        this.changeButtonColors()
+        this.changeButtonColors();
     }
+
 
     changeButtonColors(){
         for(let button of document.getElementsByTagName("button")){
             button.style.backgroundColor = this.state.color;
         }
+
+        document.getElementsByTagName("body")[0].style.backgroundColor = this.state.color;
     }
 
     componentDidMount(){
-        this.changeColor();
+        this.changeButtonColors();
     }
 
+
     render(){
-        let quote = quotes[this.state.index];
+        let quote = this.state.quote;
+        let fullQuote = `${quote.phrase} %0D%0A${quote.author}`
+        let url = `https://x.com/intent/tweet?text=${fullQuote}`;
 
         return (
-                    <div id="content">
-            <div id="quote">
-                <span id="quote-text"><span>"</span>{quote.phrase}</span>
-                <span id="author">- <span>{quote.author}</span></span>
+            <div id="content">
+                <div id="quote-box">
+                    <span id="text"><span>"</span>{quote.phrase}</span>
+                    <span id="author">- <span>{quote.author}</span></span>
 
-
-                <div id="buttons">
-
-                    <button><img src={Twitter} width="50px" height="80px" /></button>
-                    <button><img src={Tumblr} width="40px" height="60px"></img> </button>
-                    <button onClick={this.newQuote}>New Quote</button>
+                    <div id="buttons">
+                        <button>
+                            <a id="tweet-quote" href={url}>
+                                <img src={Twitter} width="50px" height="80px" />
+                            </a>
+                        </button>
+                        <button><img src={Tumblr} width="40px" height="60px"/></button>
+                        <button id="new-quote" onClick={this.newQuote}>New Quote</button>
+                    </div>
                 </div>
             </div>
-        </div>)
+        )
     }
 }
 

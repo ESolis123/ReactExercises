@@ -1,4 +1,4 @@
-#quote{
+#quote-box{
     background-color: rgb(255, 255, 255);
     padding: 50px;
     width: 50%;
@@ -29,7 +29,7 @@ body{
     margin-top: 20px;
     align-self: flex-end;
 }
-#quote-text{
+#text{
     text-align: center;
 }
 button{
@@ -60,7 +60,7 @@ button{
 button:hover{
     background-color: rgb(56, 56, 78);
     transform: scale(0.8);
-    cursor:progress;
+    cursor:pointer;
 }
 
 body{
@@ -69,4 +69,8 @@ body{
 
 button img{
     margin: 8px;
+}
+
+#new-quote{
+    width: 100%;
 }
