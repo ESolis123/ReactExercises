@@ -1,5 +1,5 @@
 #quote{
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     padding: 50px;
     width: 50%;
     height: 400px;
@@ -44,6 +44,10 @@ button{
     border-radius: 10px;
     padding: 10px;
     transition-duration: 0.5s;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 
 }
 
@@ -61,4 +65,8 @@ button:hover{
 
 body{
     transition-duration: 1.2s;
+}
+
+button img{
+    margin: 8px;
 }

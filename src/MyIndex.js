@@ -1,6 +1,9 @@
 import React from 'react';
 import './Styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faArrowDownUpLock, faCoffee, faDownLeftAndUpRightToCenter} from '@fortawesome/free-solid-svg-icons'
+import Twitter from './assets/twitter-brands.svg';
+import Tumblr from './assets/tumblr-brands.svg';
 
 const quotes =[
     {
@@ -48,7 +51,7 @@ class Index extends React.Component{
 
     changeColor = () => {
 
-        let colors2 = [...colors].filter(color=>color != this.state.color)
+        let colors2 = [...colors].filter(color=>color !== this.state.color)
 
         let randomIndex = parseInt(Math.random() * colors2.length);
         this.setState({color: colors2[randomIndex]})
@@ -76,11 +79,12 @@ class Index extends React.Component{
             <div id="quote">
                 <span id="quote-text"><span>"</span>{quote.phrase}</span>
                 <span id="author">- <span>{quote.author}</span></span>
-                {/*<FontAwesomeIcon icon= color='red' />*/}
+
+
                 <div id="buttons">
 
-                    <button>Twitter</button>
-                    <button>Tumbler</button>
+                    <button><img src={Twitter} width="50px" height="80px" /></button>
+                    <button><img src={Tumblr} width="40px" height="60px"></img> </button>
                     <button onClick={this.newQuote}>New Quote</button>
                 </div>
             </div>
