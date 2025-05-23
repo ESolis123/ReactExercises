@@ -29,27 +29,15 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            quote: quotes[parseInt(Math.random() * quotes.length)],
-            color: colors[parseInt(Math.random() * colors.length)]
+            quote: this.getRandomItem(quotes),
+            color: this.getRandomItem(colors)
         }
     }
 
     newQuote = () => {
         let quotesFiltered = quotes.filter(quote => quote.phrase !== this.state.quote.phrase);
-        this.setState({quote: quotesFiltered[parseInt(Math.random() * quotesFiltered.length)]})
+        this.setState({quote: this.getRandomItem(quotesFiltered)})
         this.changeColor();
-    }
-
-    getRandomColor = () => {
-
-        console.log(`Color: ${this.getRandomItem(colors)}`);
-        return this.getRandomItem(colors);
-    }
-
-    getRandomQuote = () => {
-
-        console.log(`Quote: ${this.getRandomItem(quotes)}`);
-        return this.getRandomItem(quotes);
     }
 
     getRandomItem = (array) =>  array[parseInt(Math.random() * array.length)];
@@ -57,15 +45,13 @@ class Index extends React.Component{
     changeColor = () => {
 
         let colors2 = [...colors].filter(color=>color !== this.state.color)
+        this.setState({color: this.getRandomItem(colors2)})
 
-        let randomIndex = parseInt(Math.random() * colors2.length);
-        this.setState({color: colors2[randomIndex]})
-
-        this.changeButtonColors();
+        this.changeElementsColors();
     }
 
 
-    changeButtonColors(){
+    changeElementsColors(){
         for(let button of document.getElementsByTagName("button")){
             button.style.backgroundColor = this.state.color;
         }
@@ -74,14 +60,14 @@ class Index extends React.Component{
     }
 
     componentDidMount(){
-        this.changeButtonColors();
+        this.changeElementsColors();
     }
 
 
     render(){
         let quote = this.state.quote;
         let fullQuote = `${quote.phrase} %0D%0A${quote.author}`
-        let url = `https://x.com/intent/tweet?text=${fullQuote}`;
+        let url = `"twitter.com/intent/tweet"`;
 
         return (
             <div id="content">
