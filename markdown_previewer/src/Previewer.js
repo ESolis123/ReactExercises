@@ -1,4 +1,4 @@
-import React, { act } from "react";
+import React from "react";
 import './App.css'
 
 class Previewer extends React.Component{
@@ -15,7 +15,6 @@ class Previewer extends React.Component{
     }
 
     checkText(){
-        console.log(`Text: ${this.props.text}`)
         let text = this.props.text.split('\n')
         let encabezado = [];
 
@@ -36,9 +35,9 @@ class Previewer extends React.Component{
         }
 
         this.content.push(encabezado);
+
         if(this.actualParent !== null)
            this.content.push(<div className="code">{this.actualParent}</div>);
-        console.log(this.content)
     }
 
     componentDidUpdate(){
@@ -50,41 +49,58 @@ class Previewer extends React.Component{
         //this.checkText();
     }
 
+    createElement(element, children){
+        return(React.createElement(element, null, children))
+    }
+
+    replaceHeading(text, pattern, heading){
+        let newText = text.replace(new RegExp(pattern),"");
+        return this.createElement(`h${heading}`, newText)
+    }
+
+    checkIfIsAHeading(text){
+        for(let i = 3 ; i> 0; i--){
+            let pattern =`^#{${i}}`;
+
+            if(text.match(pattern)){
+                return this.replaceHeading(text, pattern, i)}
+        }
+
+        return <p>{text}</p>
+    }
+
+
     convert(text){
         let encabezado = '';
 
-        if(text.match('^#{2}')){
-            if(this.actualParent === null)
-                encabezado = <h2>{text}</h2>
-            else
-                encabezado = <p>{text}</p>
-        }
+        encabezado = this.checkIfIsAHeading(text);
 
-        else if(text.match('^#{1}')){
-             if(this.actualParent === null)
-                encabezado = <h1>{text}</h1>
-            else
-                encabezado = <p>{text}</p>
-        }
-
-        else if(text.match('^(\/){2}')){
+        if(text.match('^(/){2}')){
             encabezado = <p className="comment">{text}</p>
         }
 
-        else if(text.match('```')){
+        else if(text.match('^```')){
             if(this.actualParent === null){
                 this.actualParent = [];
             }
 
             else{
-                this.content.push(<div className="code">{this.actualParent}</div>);
+                encabezado = <div className="code">{this.actualParent}</div>;
                 this.actualParent = null;
             }
-
         }
 
-        else{
-            encabezado =  <p>{text}</p>
+        if(text.match(/\*\*(.*)\*\*/)){
+
+            let element = encabezado.type;
+
+            encabezado.props.children = encabezado.props.children.replace(/\*{2}/g,"")
+            encabezado = <strong>{encabezado}</strong>
+        }
+
+        if(text.match(/_(.*)_/)){
+            encabezado.props.children = encabezado.props.children.replace(/\*{2}/g,"")
+            encabezado = <strong>{encabezado}</strong>
         }
 
         this.lastIndex++;

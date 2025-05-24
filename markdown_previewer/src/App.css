@@ -8,7 +8,7 @@ body{
 }
 
 textarea{
-  width: 800px;
+  width: 100%;
   height: 300px;
   border: none;
   overflow: scroll;
@@ -35,6 +35,9 @@ textarea{
   overflow: hidden;
   height: fit-content;
   margin-bottom: 20px;
+  max-width: 70%;
+  min-width:800px;
+  box-shadow: 2px 10px 20px black ;
 }
 
 .content{
@@ -54,18 +57,17 @@ hr.h1 {
   border: 2px solid black;
   margin-right: 50px;
 }
-
-.comment{
+.code .comment{
   color: gray;
 }
 
 .code{
-  background-color: rgb(210, 155, 231);
+  background-color: rgb(155, 209, 231);
   margin-right: 20px;
   border: 5px solid black;
   border-radius: 10px;
   padding: 20px;
-  box-shadow: 0px 10px black;
+  box-shadow: 0px 10px rgb(0, 0, 0);
 }
 
 .code p{
